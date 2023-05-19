@@ -1,0 +1,39 @@
+/* home.css */
+
+/* Startseite Container */
+.home-container {
+	padding: 1em;
+}
+
+/* Überschrift */
+.home-container h1 {
+	text-align: center;
+	color: var(--main-color);
+	margin-bottom: 1em;
+}
+
+/* Karten */
+.card {
+	margin-bottom: 1em;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Subtile Schatten für Material Design Look */
+}
+
+.card-title {
+	color: var(--main-color);
+}
+
+.card-body {
+	padding: 1em;
+}
+
+/* Buttons */
+.btn {
+	margin-top: 1em;
+}
+
+@media (min-width: 768px) {
+	/* Bei größeren Bildschirmen könnte der Container etwas seitlichen Abstand haben, um den Inhalt zentriert zu halten */
+	.home-container {
+		padding: 1em 10%;
+	}
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="icon" href="../favicon.ico" type="image/x-icon" />
+		<link rel="manifest" href="manifest.json" />
+		<link rel="apple-touch-icon" href="img/icon-128.png" />
+		<meta name="theme-color" content="#00FE9C" />
+		<meta name="apple-mobile-web-app-status-bar" content="#02BC74" />
+		<title>Salus - Medikamente</title>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		/>
+		<link rel="stylesheet" href="../css/main.css" />
+		<link rel="stylesheet" href="../css/medications.css" />
+	</head>
+
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<a class="navbar-brand" href="#">
+				<img
+					src="../img/icon-128.png"
+					width="30"
+					height="30"
+					class="d-inline-block align-top"
+					alt="Salus logo"
+				/>
+				Salus
+			</a>
+			<button
+				class="navbar-toggler"
+				type="button"
+				data-toggle="collapse"
+				data-target="#navbarNav"
+				aria-controls="navbarNav"
+				aria-expanded="false"
+				aria-label="Toggle navigation"
+			>
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Medikamente</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Erinnerungen</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Apothekensuche</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Profil</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Abmelden</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container mt-4 medication-list">
+			<h1 class="mb-4">Meine Medikamente</h1>
+
+			<div class="card mb-3 medication-item">
+				<div class="card-body">
+					<!-- Medikamenten-Icon -->
+					<i class="bi bi-capsule medication-icon"></i>
+					<h3 class="card-title medication-info">Medikament 1</h3>
+					<p class="card-text">Dosierung: 2 Tabletten täglich</p>
+					<!-- Bearbeiten-Icon -->
+					<i
+						class="bi bi-pencil-square"
+						style="font-size: 1.5rem; color: gray; float: right"
+					></i>
+				</div>
+			</div>
+
+			<div class="card mb-3 medication-item">
+				<div class="card-body">
+					<!-- Medikamenten-Icon -->
+					<i class="bi bi-capsule medication-icon"></i>
+					<h3 class="card-title medication-info">Medikament 2</h3>
+					<p class="card-text">Dosierung: 1 Tablette täglich</p>
+					<!-- Bearbeiten-Icon -->
+					<i
+						class="bi bi-pencil-square"
+						style="font-size: 1.5rem; color: gray; float: right"
+					></i>
+				</div>
+			</div>
+
+			<!-- Weitere Medikamente -->
+
+			<!-- Button zum Hinzufügen neuer Medikamente -->
+			<button
+				class="btn add-btn position-fixed"
+				style="bottom: 20px; right: 20px"
+			>
+				<i class="bi bi-clipboard-plus" style="font-size: 1.5rem"></i>
+			</button>
+		</div>
+
+		<!-- Fußzeile -->
+		<footer class="footer mt-auto py-3 bg-light">
+			<div class="container text-center">
+				<span class="text-muted"
+					>© 2023 Salus App. Alle Rechte vorbehalten.</span
+				>
+			</div>
+		</footer>
+
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	</body>
+</html>
