@@ -1,48 +1,36 @@
 const express = require('express');
+const session = require('express-session');
+const mongoose = require('mongoose');
 const path = require('path');
-const User = require('./models/user');
-
 
 const app = express();
-app.use(express.static('client'));
-
 const port = 3000;
 
-// Statische Dateien aus dem "public" Ordner bereitstellen
+// Session Config
+app.use(session({
+  secret: 'irgendeinsecrettext',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
+
+// Middleware
+app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/public')));
+app.use(express.urlencoded({ extended: true }));
 
-// Routen definieren
-const indexRoute = require('./routes/index');
-app.use('/', indexRoute);
+// MongoDB Connection
+mongoose.connect("mongodb://127.0.0.1:27017/", { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB Connected...'))
+  .catch(err => console.log(err));
 
- 
+// Routen
+app.use('/', require('./routes/index'));
+app.use('/anmelden', require('./routes/login'));
+app.use('/registrieren', require('./routes/register'));
+app.use('/profil', require('./routes/profile'));
+app.use('/logout', require('./routes/logout'));
 
-app.get('/anmelden', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', '../../client/views/anmelden.html'));
-});
-
-// POST-Anfrage zur Verarbeitung der Anmeldung
-app.post('/anmelden', (req, res) => {
-  const { email, password } = req.body;
-
-  // Neue Benutzerinstanz erstellen
-  const newUser = new User({
-    email: email,
-    password: password,
-  });
-
-  // Benutzer in der Datenbank speichern
-  newUser.save((err) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send('Fehler beim Speichern des Benutzers');
-    } else {
-      res.redirect('/'); // Weiterleitung zur Startseite nach erfolgreicher Anmeldung
-    }
-  });
-});
-
-// Server starten
 app.listen(port, () => {
-    console.log(`WebApp läuft auf http://localhost:${port}`);
+  console.log(`WebApp läuft auf http://localhost:${port}`);
 });
