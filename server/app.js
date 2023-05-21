@@ -24,7 +24,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/salus", { useNewUrlParser: true, use
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
 
-// Routen
+// Routen (Weiterleitung)
 app.use('/', require('./routes/index'));
 app.use('/anmelden', require('./routes/login'));
 app.use('/registrieren', require('./routes/register'));
