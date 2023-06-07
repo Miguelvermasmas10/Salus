@@ -29,8 +29,8 @@ Salus ist eine Progressive Web Application (PWA) für das Gesundheitsmanagement.
 
 ### Installation
 
-1. Klonen Sie das Repository: `git clone https://github.com/aldiwein/salus_app.git`
-2. Wechseln Sie in das Verzeichnis: `cd salus`
+1. Klonen Sie das Repository: `git clone https://github.com/Miguelvermasmas10/Salus.git`
+2. Wechseln Sie in das Verzeichnis: `cd Salus`
 3. Installieren Sie die Abhängigkeiten: `npm install`
 4. Starten Sie den Server: `npm start`
 5. Öffnen Sie einen Webbrowser und navigieren Sie zu `http://localhost:3000`
