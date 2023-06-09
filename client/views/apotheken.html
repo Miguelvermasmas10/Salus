@@ -14,6 +14,10 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="../css/main.css" />
 	<link rel="stylesheet" href="../css/home.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 </head>
 
 <body>
@@ -28,20 +32,23 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item active">
+				<li class="nav-item">
 					<a class="nav-link" href="#">Medikamente</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Erinnerungen</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Apothekensuche</a>
+				<li class="nav-item active">
+					<a class="nav-link" href="apotheken">Apothekensuche</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Profil</a>
+					<a class="nav-link" href="profil">Profil</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Abmelden</a>
+					<a class="nav-link" href="anmelden">Anmelden</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="registrieren">Registrieren</a>
 				</li>
 			</ul>
 		</div>
@@ -52,47 +59,212 @@
 			<h1>Apothekensuche</h1>
 		</div>
 
-		<div class="mt-4">
-			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search" placeholder="Apotheke oder Adresse eingeben"
-					aria-label="Search" />
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-					Suchen
-				</button>
-			</form>
-		</div>
-
 		<!-- Platz für Kartenansicht -->
-		<div id="map" class="mt-4" style="height: 400px">
-			<!-- Karten-Integration -->
+		<div id="map" class="mt-4" style="height: 700px">
 		</div>
+		<script>
+			var karte = L.map('map').setView([51.1657, 10.4515], 7); // Koordinaten für Deutschland
+
+			// Fügt eine Karten-Ebene hinzu
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				maxZoom: 19,
+			}).addTo(karte);
+
+			// Versucht, den aktuellen Standort des Benutzers zu ermitteln
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function (position) {
+					karte.setView([position.coords.latitude, position.coords.longitude], 13);
+				});
+			}
+
+			// Nominatim API Abfrage für Apotheken in Deutschland
+			var nominatimUrl = 'https://nominatim.openstreetmap.org/search';
+			var nominatimParameter = {
+				format: 'json',
+				amenity: 'pharmacy',
+				country: 'Germany',
+			};
+
+			var geocoder = L.Control.geocoder({
+				defaultMarkGeocode: false,
+				geocoder: L.Control.Geocoder.nominatim({
+					geocodingQueryParams: nominatimParameter,
+				}),
+			})
+				.on('markgeocode', function (e) {
+					// repräsentiert eine geographische Grenze, die den Bereich der Suchergebnisse einschränkt
+					var begrenzungsBox = e.geocode.bbox;
+					// Erstellt ein Polygon aus den vier Ecken der Begrenzungsbox
+					var poly = L.polygon([
+						begrenzungsBox.getSouthEast(),
+						begrenzungsBox.getNorthEast(),
+						begrenzungsBox.getNorthWest(),
+						begrenzungsBox.getSouthWest(),
+					]);
+					// Verändert den Zoom und die Position der Karte, um das Polygon optimal darzustellen
+					karte.fitBounds(poly.getBounds());
+				})
+				.addTo(karte);
+
+			var markerEbenen = L.layerGroup();
+			var hinzugefuegtePins = new Set();
+
+			function erstelleApothekenKarte(apotheke) {
+				var karte = document.createElement('div');
+				karte.className = 'card mb-3 popup-card';
+
+				var karteInhalt = document.createElement('div');
+				karteInhalt.className = 'card-body';
+
+				var titel = document.createElement('h1');
+				titel.className = 'card-title';
+				titel.textContent = apotheke.display_name;
+
+				var adresse = document.createElement('p');
+				adresse.className = 'card-text';
+				adresse.innerHTML = '<strong>Adresse:</strong> ' + (apotheke.address ? holeAdresse(apotheke.address) : 'Nicht angegeben');
+
+				var oeffnungszeiten = document.createElement('p');
+				oeffnungszeiten.className = 'card-text';
+				oeffnungszeiten.innerHTML = '<strong>Öffnungszeiten:</strong> ' + (apotheke.opening_hours ? apotheke.opening_hours : 'Nicht angegeben');
+
+				var telefon = document.createElement('p');
+				telefon.className = 'card-text';
+				telefon.innerHTML = '<strong>Telefon:</strong> ' + (apotheke.phone ? apotheke.phone : 'Nicht angegeben');
+
+				var email = document.createElement('p');
+				email.className = 'card-text';
+				email.innerHTML = '<strong>Email:</strong> ' + (apotheke.email ? apotheke.email : 'Nicht angegeben');
+
+				var webseitenLink = document.createElement('a');
+				webseitenLink.className = 'card-link';
+				webseitenLink.href = apotheke.website || '';
+				webseitenLink.textContent = apotheke.website;
+
+				karteInhalt.appendChild(titel);
+				karteInhalt.appendChild(adresse);
+				karteInhalt.appendChild(oeffnungszeiten);
+				karteInhalt.appendChild(telefon);
+				karteInhalt.appendChild(email);
+				karteInhalt.appendChild(webseitenLink);
+				karte.appendChild(karteInhalt);
+
+				return karte;
+			}
+
+			function holeAdresse(adresse) {
+				var vollstaendigeAdresse = '';
+				if (adresse.street) {
+					vollstaendigeAdresse += adresse.street + ', ';
+				}
+				if (adresse.housenumber) {
+					vollstaendigeAdresse += adresse.housenumber + ', ';
+				}
+				if (adresse.postcode) {
+					vollstaendigeAdresse += adresse.postcode + ' ';
+				}
+				if (adresse.city) {
+					vollstaendigeAdresse += adresse.city;
+				}
+				return vollstaendigeAdresse.trim();
+			}
+
+			function holeApothekenDetails(marker, apotheke) {
+				var detailsUrl =
+					'https://nominatim.openstreetmap.org/details.php?osmtype=' +
+					'N' +
+					'&osmid=' +
+					apotheke.osm_id +
+					'&class=' +
+					apotheke.class +
+					'&addressdetails=1&hierarchy=0&group_hierarchy=1&format=json';
+
+				fetch(detailsUrl)
+					.then(function (response) {
+						if (!response.ok) {
+							throw new Error('HTTP-Fehler ' + response.status);
+						}
+						return response.json();
+					})
+					.then(function (details) {
+						var apothekeKarte = erstelleApothekenKarte({
+							display_name: apotheke.display_name,
+							address: details.addresstags,
+							opening_hours: details.extratags.opening_hours || 'Nicht angegeben',
+							phone: details.extratags['contact:phone'] || 'Nicht angegeben',
+							email: details.extratags['contact:email'] || 'Nicht angegeben',
+							website: details.extratags['contact:website'] || '',
+						});
+
+						marker.bindPopup(apothekeKarte).openPopup();
+					})
+					.catch(function (fehler) {
+						console.log('Fetch-Fehler:', fehler);
+					});
+			}
+
+			// Anpassung der Marker-Erzeugung, um mehr Daten anzuzeigen
+			karte.on('moveend', function () {
+				var grenzen = karte.getBounds();
+				var parameter = Object.assign({}, nominatimParameter, {
+					bounded: 1,
+					viewbox: grenzen.getWest() + ',' + grenzen.getSouth() + ',' + grenzen.getEast() + ',' + grenzen.getNorth(),
+				});
+				var queryString = Object.keys(parameter)
+					.map(function (key) {
+						return encodeURIComponent(key) + '=' + encodeURIComponent(parameter[key]);
+					})
+					.join('&');
+				var url = nominatimUrl + '?' + queryString;
+
+				fetch(url)
+					.then(function (response) {
+						if (!response.ok) {
+							throw new Error('HTTP-Fehler ' + response.status);
+						}
+						return response.json();
+					})
+					.then(function (daten) {
+						daten.forEach(function (ergebnis) {
+							if (
+								ergebnis.class === 'amenity' &&
+								ergebnis.type === 'pharmacy' &&
+								!hinzugefuegtePins.has(ergebnis.osm_id)
+							) {
+								hinzugefuegtePins.add(ergebnis.osm_id);
+
+								var marker = L.marker([ergebnis.lat, ergebnis.lon])
+									.on('click', function () {
+										var marker = this;
+										holeApothekenDetails(marker, ergebnis);
+									})
+									.addTo(markerEbenen);
+							}
+						});
+						markerEbenen.addTo(karte);
+					})
+					.catch(function (fehler) {
+						console.log('Fetch-Fehler:', fehler);
+					});
+			});
+
+			// Löst ein 'moveend' Ereignis aus, um die ersten Marker zu laden
+			karte.fire('moveend');
+		</script>
 
 		<!-- Platz für Apothekenliste -->
 		<div class="mt-4">
-			<!-- Beispiel für eine Apotheke -->
-			<div class="card mb-3">
-				<div class="card-body">
-					<h5 class="card-title">Apotheke XYZ</h5>
-					<p class="card-text">Adresse: Musterstraße 1, 12345 Stadt</p>
-					<p class="card-text">
-						Öffnungszeiten: Mo-Fr 8:00 - 18:00, Sa 9:00 - 13:00
-					</p>
-					<a href="#" class="btn btn-primary">Details</a>
-				</div>
+			<div id="pharmacy-list" class="card-group"></div>
+		</div>
+		<!-- Fußzeile -->
+		<footer class="footer mt-auto py-3 bg-light">
+			<div class="container text-center">
+				<span class="text-muted">© 2023 Salus App. Alle Rechte vorbehalten.</span>
 			</div>
-			<!-- Weitere Apotheken ... -->
-		</div>
-	</div>
+		</footer>
 
-	<!-- Fußzeile -->
-	<footer class="footer mt-auto py-3 bg-light">
-		<div class="container text-center">
-			<span class="text-muted">© 2023 Salus App. Alle Rechte vorbehalten.</span>
-		</div>
-	</footer>
-
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>

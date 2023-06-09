@@ -20,16 +20,20 @@ app.use(express.static(path.join(__dirname, '../client/public')));
 app.use(express.urlencoded({ extended: true }));
 
 // MongoDB Connection
-mongoose.connect("mongodb://127.0.0.1:27017/salus", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://127.0.0.1:27017/salus', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
 
-// Routen (Weiterleitung)
+
+// Routen
 app.use('/', require('./routes/index'));
 app.use('/anmelden', require('./routes/login'));
 app.use('/registrieren', require('./routes/register'));
 app.use('/profil', require('./routes/profile'));
 app.use('/logout', require('./routes/logout'));
+app.use('/passwort-reset', require('./routes/password-reset'));
+
+app.use('/apotheken', require('./routes/apotheken'));
 
 app.listen(port, () => {
   console.log(`WebApp läuft auf http://localhost:${port}`);
