@@ -13,9 +13,34 @@
 }
 
 /* Karten */
+
+.popup-card {
+	width: 250px;
+	font-size: 14px;
+}
+
+.popup-card .card-title {
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.popup-card .card-text {
+	margin-bottom: 5px;
+}
+
+.popup-card .card-text strong {
+	font-weight: bold;
+}
+
+.popup-card .btn {
+	margin-top: 10px;
+}
+
 .card {
 	margin-bottom: 1em;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Subtile Schatten für Material Design Look */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+	/* Subtile Schatten für Material Design Look */
 }
 
 .card-title {
@@ -25,13 +50,10 @@
 .card-body {
 	padding: 1em;
 }
-
-/* Buttons */
-.btn {
-	margin-top: 1em;
-}
+ 
 
 @media (min-width: 768px) {
+
 	/* Bei größeren Bildschirmen könnte der Container etwas seitlichen Abstand haben, um den Inhalt zentriert zu halten */
 	.home-container {
 		padding: 1em 10%;

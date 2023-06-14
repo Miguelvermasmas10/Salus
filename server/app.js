@@ -30,10 +30,12 @@ app.use('/', require('./routes/index'));
 app.use('/anmelden', require('./routes/login'));
 app.use('/registrieren', require('./routes/register'));
 app.use('/profil', require('./routes/profile'));
-app.use('/logout', require('./routes/logout'));
-app.use('/passwort-reset', require('./routes/password-reset'));
-
-app.use('/apotheken', require('./routes/apotheken'));
+app.use('/passwort-reset', require('./routes/password-reset')); 
+app.use('/abmelden', require('./routes/abmelden'));
+app.use('/apotheken', require('./routes/apotheken')); 
+app.use('/dokumente', require('./routes/dokumente'));
+app.use('/erinnerungen', require('./routes/erinnerungen')); 
+app.use('/medikamente', require('./routes/medikamente'));
 
 app.listen(port, () => {
   console.log(`WebApp läuft auf http://localhost:${port}`);

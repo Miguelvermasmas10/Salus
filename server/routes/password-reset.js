@@ -3,12 +3,15 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 const path = require('path');
 const User = require('../models/user');
- 
+
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'softwareprojekt23@gmail.com',  
-        pass: 'SOFTWAREPROJEKT'  
+        type: 'OAuth2',
+        user: '',
+        clientId: '',
+        clientSecret: '',
+        refreshToken: '',
     }
 });
 
@@ -32,7 +35,7 @@ router.post('/', async (req, res) => {
         const randomPassword = Math.random().toString(36).slice(-8);
 
         // Setze das Passwort des Benutzers auf das generierte Passwort
-        user.password = randomPassword;
+        user.passwort = randomPassword;
         await user.save();
 
         // E-Mail mit dem neuen Passwort senden
