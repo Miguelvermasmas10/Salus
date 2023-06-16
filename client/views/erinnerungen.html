@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
 	<!-- Grundlegende Meta-Tags und Ressourcen -->
 	<meta charset="UTF-8" />
@@ -17,37 +16,22 @@
 	<link rel="stylesheet" href="../css/main.css" />
 	<link rel="stylesheet" href="../css/home.css" />
 </head>
-
 <body>
-
 	<!-- Liste mit Erinnerungen des Users -->
 	<div class="container mt-4">
 		<div class="text-center">
 			<h1>Erinnerungen</h1>
 		</div>
-
-		<div class="mt-4">
+		<div class="mt-4" id="medicationList">
 			<h2>Medikamentenerinnerungen</h2>
-			<button class="btn btn-primary float-right mb-2">+ Hinzufügen</button>
+			<button id="add_medication" class="btn btn-primary float-right mb-2">+ Hinzufügen</button>
 			<div class="clearfix"></div>
-
-			<!-- Beispiel für eine Medikamentenerinnerung -->
-			<div class="card mb-3">
-				<div class="card-body">
-					<h5 class="card-title">Ibuprofen</h5>
-					<p class="card-text">Nächste Dosis: 2 Tabletten um 15:00 Uhr</p>
-					<button class="btn btn-outline-primary">Bearbeiten</button>
-					<button class="btn btn-outline-danger">Löschen</button>
-				</div>
-			</div>
-			<!-- Weitere Medikamentenerinnerungen ... -->
+			<!-- Platz für Medikamentenerinnerungen ... -->
 		</div>
-
-		<div class="mt-4">
+		<div class="mt-4" id="appointmentList">
 			<h2>Arztterminerinnerungen</h2>
-			<button class="btn btn-primary float-right mb-2">+ Hinzufügen</button>
+			<button id="add_appointment" class="btn btn-primary float-right mb-2">+ Hinzufügen</button>
 			<div class="clearfix"></div>
-
 			<!-- Beispiel für eine Arztterminerinnerung -->
 			<div class="card mb-3">
 				<div class="card-body">
@@ -60,16 +44,54 @@
 			<!-- Weitere Arztterminerinnerungen ... -->
 		</div>
 	</div>
-
 	<!-- Fußzeile -->
 	<footer class="footer mt-auto py-3 bg-light">
 		<div class="container text-center">
 			<span class="text-muted">© 2023 Salus App. Alle Rechte vorbehalten.</span>
 		</div>
 	</footer>
+	<!-- Modal -->
+	<div class="modal fade" id="addMedicationModal" tabindex="-1" role="dialog" aria-labelledby="addMedicationModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+			<h5 class="modal-title" id="addMedicationModalLabel">Neues Medikament</h5>
+			</div>
+			<div class="modal-body">
+				<form autocomplete="off">
+					<div class="form-group">
+						<label for="medicationName">📝 Name des Medikaments</label>
+						<input type="text" class="form-control" id="medicationName" placeholder="Name des Medikaments" required="true">
+					</div>
+					<div class="form-group">
+						<label for="medicationDose">💊 Dosis</label>
+						<input type="text" class="form-control" id="medicationDose" value="1 Tablette" required>
+					</div>
+					<div class="form-group">
+						<label for="medicationTime">⏰ Zeit der nächsten Dosis</label>
+						<input type="datetime-local" class="form-control" id="medicationTime" placeholder="Zeit der nächsten Dosis" required>
+					</div>
+					<div class="form-group">
+						<label for="medicationInterval">⏰ In welchem Interval wiederholen?</label>
+						<select class="form-control" id="medicationInterval" required>
+							<option value="Einmalig">Einmalig</option>
+							<option value="Täglich">Täglich</option>
+							<option value="Wöchentlich">Wöchentlich</option>
+							<option value="Monatlich">Monatlich</option>
+						</select>						
+					</div>
+				</form>
+			</div>			
+			<div class="modal-footer">
+			<button type="button" id="entry-close" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+			<button type="button" id="entry-save" class="btn btn-primary">Speichern</button>
+			</div>
+		</div>
+		</div>
+	</div>  
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script src="js/app.js"></script>
+	<script src="js/erinnerungen.js"></script>
 </body>
-
 </html>

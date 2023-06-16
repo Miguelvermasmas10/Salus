@@ -1,5 +1,5 @@
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('serviceworker.js')
+  navigator.serviceWorker.register('./serviceworker.js')
     .then((register) => console.log('Service Worker Registered'))
     .catch((err) => console.log('Service Worker Failed to Register', err));
 }
@@ -27,9 +27,17 @@ function includeNavbar() {
             }
           } else {
             // Entferne den "Abmelden" und "Profil" Link
+            var medikamenteLink = navbarContainer.querySelector('a[href="medikamente"]');
+            if (medikamenteLink) {
+              medikamenteLink.parentNode.removeChild(medikamenteLink);
+            }
             var dokumenteLink = navbarContainer.querySelector('a[href="dokumente"]');
             if (dokumenteLink) {
               dokumenteLink.parentNode.removeChild(dokumenteLink);
+            }
+            var erinnerungenLink = navbarContainer.querySelector('a[href="erinnerungen"]');
+            if (erinnerungenLink) {
+              erinnerungenLink.parentNode.removeChild(erinnerungenLink);
             }
             var profilLink = navbarContainer.querySelector('a[href="profil"]');
             if (profilLink) {
