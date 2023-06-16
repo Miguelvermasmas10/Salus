@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
       return res.send('Fehler beim Logout');
     }    
     // Wenn alles gut geht, leiten wir den Benutzer zur Anmeldeseite um
-    res.redirect('/anmelden');
+    res.redirect('/client/views/anmelden');
   });
 });
 

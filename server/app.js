@@ -2,8 +2,6 @@ const express = require("express");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const path = require("path");
-
-const notification = require("./notification");
 const reminderRouter = require("./routes/reminder");
 
 const app = express();
@@ -19,13 +17,9 @@ app.use(session({
 
 // Middleware
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../client/public')));
+// app.use(express.static(path.join(__dirname, '../client/public')));
+app.use(express.static(path.join(__dirname, '../')));
 app.use(express.urlencoded({ extended: true }));
-
-// MongoDB Connection
-mongoose.connect('mongodb+srv://aldiwein:qxnLoL3YzH8whbvC@salus.mkxowi4.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB Connected...'))
-  .catch(err => console.log(err));
 
 // Routen
 app.use('/', require('./routes/index'));
@@ -48,21 +42,12 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ message: err.message });
 });
 
+
+// MongoDB Connection
+mongoose.connect('mongodb+srv://aldiwein:qxnLoL3YzH8whbvC@salus.mkxowi4.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB Connected...'))
+  .catch(err => console.log(err));
+
 app.listen(port, () => {
   console.log(`WebApp läuft auf http://localhost:${port}`);
 });
-
-/*
-// Create a sample reminder object
-const reminder = {
-  user: { name: "John" },
-  type: "Medicine",
-  name: "Ibuprofen",
-  date: new Date(),
-  interval: 0,
-  dose: 2,
-};
-
-// Run the notification function with the reminder object
-notification(reminder);
-*/

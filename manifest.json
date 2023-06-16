@@ -3,22 +3,22 @@
     "short_name": "Salus",
     "icons": [
       {
-        "src": "img/icon-1128.png",
+        "src": "/client/public/img/icon-128.png",
         "type": "image/png",
         "sizes": "128x128"
       },
       {
-        "src": "img/icon-192.png",
+        "src": "/client/public/img/icon-192.png",
         "type": "image/png",
         "sizes": "192x192"
       },
       {
-        "src": "img/icon-512.png",
+        "src": "/client/public/img/icon-512.png",
         "type": "image/png",
         "sizes": "512x512"
       }
     ],
-    "start_url": "/",
+    "start_url": "/client/views/index.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#00FE9C",

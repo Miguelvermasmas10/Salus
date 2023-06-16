@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
     // Wir speichern die Benutzer-ID in der Sitzung.
     req.session.userId = user._id;
     // Dann leiten wir ihn zur Profilseite weiter.
-    res.redirect('/profil');
+    res.redirect('/client/views/profil');
   } else {
     // Wenn wir den Benutzer nicht finden oder das Passwort nicht stimmt, sagen wir das dem Benutzer.
     res.send('Falsche Anmeldeinformationen');

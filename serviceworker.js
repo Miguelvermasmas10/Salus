@@ -3,8 +3,7 @@ const cacheName = 'static-cache-v1';
 
 // Define an array of files to cache
 const filesToCache = [
-  "jquery.min.js",
-  "bootstrap.min.js"
+  "./favicon.ico"
 ];
 
 // Listen for the install event and cache the files
@@ -50,4 +49,15 @@ self.addEventListener('fetch', event => {
         return fetch(event.request);
       })
   );
+});
+
+self.addEventListener('push', event => {
+  console.log('Service worker sending notification...');
+  const title = 'New Notification';
+  const options = {
+    body: event.data.text(),
+    icon: '/client/public/img/icon-128.png',
+    badge: '/client/public/img/icon-128.png'
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
 });
