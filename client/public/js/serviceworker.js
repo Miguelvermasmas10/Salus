@@ -3,11 +3,8 @@ const cacheName = 'static-cache-v1';
 
 // Define an array of files to cache
 const filesToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/script.js',
-  '/logo.png'
+  "jquery.min.js",
+  "bootstrap.min.js"
 ];
 
 // Listen for the install event and cache the files

@@ -380,3 +380,5 @@ function updateMedication() {
     
     $('#addMedicationModal').modal('hide');
 }
+
+initialiseUI();

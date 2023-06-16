@@ -1,8 +1,80 @@
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./serviceworker.js')
-    .then((register) => console.log('Service Worker Registered'))
-    .catch((err) => console.log('Service Worker Failed to Register', err));
+if ('serviceWorker' in navigator && 'PushManager' in window) {
+  console.log('Service Worker and Push is supported');
+
+  // Registrieren Sie den Service Worker
+  navigator.serviceWorker.register('./js/serviceworker.js')
+  .then(function(swReg) {
+    console.log('Service Worker is registered', swReg);
+
+    swRegistration = swReg;
+    //initialiseUI();
+  })
+  .catch(function(error) {
+    console.error('Service Worker Error', error);
+  });
+} else {
+  console.warn('Push messaging is not supported');
 }
+
+// publicKey: BIzDewgUnFBMdyO-GzzoRrnBqcH4VZrW7q6mVFYDlzmcCSuPznIRo6Qnjdf8-_Fgb5MJ_hEVvVoaYs-mwIob3WA
+// privateKey: xrYPrWX0TgMJ17eqFUl2b3WdpQijm4n6ohvuL8dmWR4
+function initialiseUI() {
+  // Überprüfen Sie die anfängliche Berechtigung
+  if (Notification.permission === 'denied') {
+    console.log('Push-Benachrichtigungen wurden vom Benutzer blockiert.');
+    return;
+  }
+
+  // Fragen Sie den Benutzer um Erlaubnis, wenn die Berechtigung noch nicht erteilt wurde
+  if (Notification.permission !== 'granted') {
+    Notification.requestPermission().then(function(permission) {
+      if (permission === 'granted') {
+        console.log('Berechtigung für Push-Benachrichtigungen erteilt.');
+        subscribeUserToPush();
+      } else {
+        console.log('Berechtigung für Push-Benachrichtigungen abgelehnt.');
+      }
+    });
+  }
+}
+
+
+function subscribeUserToPush() {
+  navigator.serviceWorker.ready.then(function(registration) {
+    if (!registration.pushManager) {
+      console.log('Dieser Browser unterstützt keine Push-Benachrichtigungen.');
+      return;
+    }
+
+    // Erstellen Sie ein Push-Abonnement
+    registration.pushManager.subscribe({
+      userVisibleOnly: true, // Die Benachrichtigung muss für den Benutzer sichtbar sein
+      applicationServerKey: urlBase64ToUint8Array('BIzDewgUnFBMdyO-GzzoRrnBqcH4VZrW7q6mVFYDlzmcCSuPznIRo6Qnjdf8-_Fgb5MJ_hEVvVoaYs-mwIob3WA')
+    }).then(function(subscription) {
+      console.log('Benutzer ist abonniert.');
+    }).catch(function(error) {
+      console.error('Fehler beim Abonnieren des Benutzers', error);
+    });
+  });
+}
+
+// Hilfsfunktion zum Konvertieren der Basis64-URL in eine Uint8Array
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+//-----------------------------------------
 
 function includeNavbar() {
   var xhr = new XMLHttpRequest();
@@ -72,6 +144,7 @@ function includeNavbar() {
   };
   xhr.send();
 }
+
 function checkAuthentication() {
   // Überprüfe den Status über eine GET-Anfrage an den Server
   return fetch('/profil/status', {
@@ -93,5 +166,5 @@ function checkAuthentication() {
 }
 window.addEventListener('DOMContentLoaded', function() {
   includeNavbar();
-  checkAuthentication() 
+  checkAuthentication();
 });
