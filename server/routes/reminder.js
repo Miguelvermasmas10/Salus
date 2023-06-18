@@ -22,7 +22,7 @@ router.get('/list', ensureAuthenticated, (req, res) => {
   // Abrufen der Medikamente aus der Datenbank
   Reminder.find({ user: req.session.userId })
   .then(reminders => {
-    res.send(reminders);
+    res.status(200).send(reminders);
     }).catch(err => {
         console.error(err);
         res.status(500).send({ message: 'Fehler beim Abrufen der Medikamente' });
