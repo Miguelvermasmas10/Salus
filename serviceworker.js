@@ -3,7 +3,19 @@ const cacheName = 'static-cache-v1';
 
 // Define an array of files to cache
 const filesToCache = [
-  "./favicon.ico"
+  "./favicon.ico",
+  "./client/public/js/bootstrap.min.js",
+  "./client/public/js/jquery.min.js",
+  "./client/views/anmelden.html",
+  "./client/views/apotheken.html",
+  "./client/views/dokumente.html",
+  "./client/views/erinnerungen.html",
+  "./client/views/index.html",
+  "./client/views/medikamente.html",
+  "./client/views/passwort-reset.html",
+  "./client/views/profil.html",
+  "./client/views/registrieren.html",
+  "./server/app.js",
 ];
 
 // Listen for the install event and cache the files
@@ -64,7 +76,7 @@ const showLocalNotification = (title, body, swRegistration) => {
   const options = {
     body: body,
     icon: "/client/public/img/icon-192.png",
-    vibrate: [100,100,100]
+    vibrate: [100,200,100]
   };
   swRegistration.showNotification(title, options);
 }
