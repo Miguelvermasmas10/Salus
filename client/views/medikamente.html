@@ -39,9 +39,10 @@
 			</div>
 			<div class="modal-body">
 				<form autocomplete="off">
+					<input type="hidden" id="medicationId" value="add">
 					<div class="form-group">
 						<label for="medicationName">📛 Name des Medikaments</label>
-						<input type="text" class="form-control" id="medicationName" placeholder="Name des Medikaments" required>
+						<input type="text" class="form-control" id="medicationName" placeholder="Name des Medikaments" autocomplete="off" required>
 					</div>
 					<div class="form-group">
 						<label for="medicationDosage">💊 Dosis</label>
@@ -57,7 +58,7 @@
 					</div>
 					<div class="form-group">
 						<label for="medicationNotes">📝 Notizen</label>
-						<textarea class="form-control" name="mediactionNotes" id="mediactionNotes" cols="30" rows="3" placeholder="Notizen..."></textarea>
+						<textarea class="form-control" name="medicationNotes" id="medicationNotes" cols="30" rows="3" autocomplete="off" placeholder="Notizen..."></textarea>
 					</div>
 				</form>
 			</div>			

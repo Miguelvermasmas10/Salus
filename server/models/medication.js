@@ -28,7 +28,8 @@ const MedicationSchema = new mongoose.Schema({
     },
     notes: {
         type: String,
-        required: false
+        required: false,
+        default: "..."
     }
 });
 
