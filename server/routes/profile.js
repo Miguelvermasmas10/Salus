@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const User = require('../models/user');
+const Subscription = require("../models/subscription");
 
 // Diese Funktion prüft, ob ein Benutzer angemeldet ist.
 function ensureAuthenticated(req, res, next) {
@@ -66,10 +67,37 @@ router.post('/info', ensureAuthenticated, async (req, res) => {
     res.status(500).send({ message: `Etwas ist schief gelaufen: ${err.message}` });
   }
 });
+
 // Status des Authentifizierungsstatus abrufen
 router.get('/status', ensureAuthenticated, (req, res) => {
   // Wenn der Benutzer angemeldet ist, senden wir den Status 'true'
   res.send({ status: true });
 });
+
+// Route zum Hinzufügen eines neuen Abonnements
+router.post('/subscribe', ensureAuthenticated, async function(req, res) {
+  let body = req.body;
+  body["user"] = req.session.userId;
+  const new_subscription = new Subscription(req.body);
+  new_subscription.save().then(function() {
+      console.log('Abonnement gespeichert!');
+      res.sendStatus(200);
+  }).catch(function(error) {
+      console.error('Fehler beim Speichern des Abonnements', error);
+      res.sendStatus(500);
+  });
+
+// Route zum Löschen eines Abonnements
+router.delete('/unsubscribe', ensureAuthenticated, function(req, res) {
+  Subscription.deleteOne({ endpoint: req.body.endpoint }).then(function() {
+      res.sendStatus(200);
+  }).catch(function(error) {
+      console.error('Fehler beim Löschen des Abonnements', error);
+      res.sendStatus(500);
+  });
+  });
+});
+
+
 // Zum Schluss geben wir den router zurück, damit andere Teile unseres Programms ihn nutzen können.
-module.exports = router;
+module.exports = router;  

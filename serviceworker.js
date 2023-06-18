@@ -51,13 +51,20 @@ self.addEventListener('fetch', event => {
   );
 });
 
-self.addEventListener('push', event => {
-  console.log('Service worker sending notification...');
-  const title = 'New Notification';
-  const options = {
-    body: event.data.text(),
-    icon: '/client/public/img/icon-128.png',
-    badge: '/client/public/img/icon-128.png'
-  };
-  event.waitUntil(self.registration.showNotification(title, options));
+self.addEventListener('push', function(event) {
+  if (event.data) {
+    console.log('Push event!! ', event.data.text())
+    showLocalNotification('Erinnerung an Medikament!', event.data.text(), self.registration);
+  } else {
+    console.log('Push event but no data')
+  }
 });
+
+const showLocalNotification = (title, body, swRegistration) => {
+  const options = {
+    body: body,
+    icon: "/client/public/img/icon-192.png",
+    vibrate: [100,100,100]
+  };
+  swRegistration.showNotification(title, options);
+}
