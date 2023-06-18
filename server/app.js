@@ -3,6 +3,7 @@ const session = require("express-session");
 const mongoose = require("mongoose");
 const path = require("path");
 const reminderRouter = require("./routes/reminder");
+const notificationRouter = require("./routes/notification");
 
 const app = express();
 const port = 3000;
@@ -33,6 +34,7 @@ app.use('/dokumente', require('./routes/dokumente'));
 app.use('/medikamente', require('./routes/medikamente'));
 app.use('/erinnerungen', require('./routes/reminder'));
 app.use("/reminder", reminderRouter);
+app.use("/notification", notificationRouter);
 
 // Fehlerbehandlungsmiddleware
 app.use((err, req, res, next) => {
