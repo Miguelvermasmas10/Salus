@@ -12,8 +12,7 @@ function ensureAuthenticated(req, res, next) {
     return next();
   }
   // Wenn der Benutzer nicht angemeldet ist, geben wir einen Fehler aus
-  res.sendFile(path.join(__dirname, '../../client/views/anmelden.html'));
-  // res.status(401).send({ message: 'Nicht autorisiert' });
+  res.status(401).send({ message: 'Nicht autorisiert' });
 }
 
 const storage = multer.memoryStorage();
