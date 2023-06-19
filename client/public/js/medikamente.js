@@ -4,6 +4,7 @@ $(document).ready(function() {
         // Leeren der ID
         $('#medicationId').val('');
         // Öffnen des Modals
+        $('.modal-title').text('Neues Medikament');
         $('#medicationModal').modal('show');
     });
   
@@ -124,6 +125,7 @@ $(document).ready(function() {
                 $('#medicationNotes').val(notes);
         
                 // Öffnen des Modals
+                $('.modal-title').text('Bearbeiten');
                 $('#medicationModal').modal('show');
             });
         })
