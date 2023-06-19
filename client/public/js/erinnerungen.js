@@ -126,6 +126,7 @@ loadMedications();
 // Medikament hinzufügen Button
 document.getElementById("add_medication").addEventListener("click", function() {
     resetModal();
+    $('.modal-title').text('Neues Medikament');
     $('#addMedicationModal').modal('show');
     document.getElementById('medicationName').focus();
 });
@@ -338,6 +339,7 @@ function editMedication(event) {
     document.getElementById("medicationTime").value = medicationTime;
     document.getElementById("medicationInterval").value = medicationInterval;
     // Öffnen des Modals
+    $('.modal-title').text('Bearbeiten');
     $('#addMedicationModal').modal('show');
     // Speichern des Elternelements der Karte in einer globalen Variable
     selectedMedicationCard = medicationCard;
