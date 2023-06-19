@@ -119,4 +119,4 @@ router.get('/user', ensureAuthenticated, async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = router; // Exportiert den Router für die Verwendung in anderen Dateien

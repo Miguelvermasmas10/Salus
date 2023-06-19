@@ -26,6 +26,5 @@ router.post('/', async (req, res) => {
     res.send('Falsche Anmeldeinformationen');
   }
 });
-
-// Zum Schluss geben wir den router zurück, damit andere Teile unseres Programms ihn nutzen können.
-module.exports = router;
+ 
+module.exports = router; // Exportiert den Router für die Verwendung in anderen Dateien

@@ -45,9 +45,9 @@ app.use("/reminder", reminderRouter);
 
 // Fehlerbehandlungsmiddleware
 app.use((err, req, res, next) => {
-  // Setzen Sie den Content-Type-Header auf "application/json"
+  // Setze den Content-Type-Header auf "application/json"
   res.setHeader("Content-Type", "application/json");
-  // Senden Sie einen Fehlerstatus und eine JSON-Nachricht
+  // Senden eines Fehlerstatus und einer JSON-Nachricht
   res.status(err.status || 500).json({ message: err.message });
 });
 

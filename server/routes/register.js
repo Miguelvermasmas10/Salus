@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
 
     const savedUser = await user.save(); // Speichert den Benutzer in der Datenbank
     req.session.userId = savedUser._id; // Setzt die Benutzer-ID in der Sitzung
-    res.redirect('/client/views/profil'); // Leitet den Benutzer auf die Profilseite weiter
+    res.redirect('/profil'); // Leitet den Benutzer auf die Profilseite weiter 
   } catch (err) {
     console.error(err);
     res.status(500).send(`Etwas ist schief gelaufen: ${err.message}`); // Sendet eine Fehlermeldung, wenn etwas schiefgeht

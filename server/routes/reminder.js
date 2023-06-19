@@ -95,6 +95,5 @@ router.put('/update/:id', ensureAuthenticated, (req, res) => {
           res.status(500).send({ message: 'Fehler beim Aktualisieren des Medikaments' });
       });
 });
-
-// Export the router
-module.exports = router;
+ 
+module.exports = router; // Exportiert den Router für die Verwendung in anderen Dateien

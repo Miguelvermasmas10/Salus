@@ -98,4 +98,4 @@ router.delete('/delete/:id', ensureAuthenticated, (req, res) => {
       });
 });
 
-module.exports = router;
+module.exports = router; // Exportiert den Router für die Verwendung in anderen Dateien

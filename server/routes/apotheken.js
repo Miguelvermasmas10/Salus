@@ -6,4 +6,4 @@ router.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/views/apotheken.html'));  
 });
 
-module.exports = router;
+module.exports = router; // Exportiert den Router für die Verwendung in anderen Dateien

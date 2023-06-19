@@ -47,8 +47,8 @@ function includeNavbar() {
           var currentPath = window.location.pathname;
           var navLinks = navbarContainer.querySelectorAll('.nav-link');
           navLinks.forEach(function (link) {
-            var linkPath = link.getAttribute('href');
-            if ('/' + linkPath ===  currentPath) {
+            var linkPath = link.getAttribute('href'); 
+            if (linkPath ===  currentPath) {
               link.parentElement.classList.add('active');
             }
           });
@@ -96,7 +96,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
   checkAuthentication().then(function(auth){
     if(auth){
       console.log('Service Worker and Push is supported, mein Freund!');
-      // Registrieren Sie den Service Worker
+      //  den Service Worker Registrieren
       navigator.serviceWorker.register('/serviceworker.js')
       .then(function(swReg) {
         console.log('Service Worker is registered', swReg);
@@ -116,13 +116,13 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
 
 
 function initialiseUI() {
-// Überprüfen Sie die anfängliche Berechtigung
+// Überprüft die Berechtigung
 if (Notification.permission === 'denied') {
   console.log('Push-Benachrichtigungen wurden vom Benutzer blockiert.');
   return;
 }
 
-// Fragen Sie den Benutzer um Erlaubnis, wenn die Berechtigung noch nicht erteilt wurde
+// Fragt den Benutzer um Erlaubnis Benachrichtigungen zu senden, wenn diese noch nicht erteilt wurde
   if (Notification.permission !== 'granted') {
     Notification.requestPermission().then(function(permission) {
       if (permission === 'granted') {
@@ -140,12 +140,12 @@ function subscribeUserToPush() {
       console.log('Dieser Browser unterstützt keine Push-Benachrichtigungen.');
       return;
       }
-      // Erstellen Sie ein Push-Abonnement
+      // Erstelle ein Push-Abonnement
       registration.pushManager.subscribe({
       userVisibleOnly: true, // Die Benachrichtigung muss für den Benutzer sichtbar sein
       applicationServerKey: urlBase64ToUint8Array('BIzDewgUnFBMdyO-GzzoRrnBqcH4VZrW7q6mVFYDlzmcCSuPznIRo6Qnjdf8-_Fgb5MJ_hEVvVoaYs-mwIob3WA')
       }).then(function(subscription) {
-      // Senden Sie das Abonnement an den Server
+      // Sende das Abonnement an den Server
       fetch('/profil/subscribe', {
           method: 'POST',
           headers: {
