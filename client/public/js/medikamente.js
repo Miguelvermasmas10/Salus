@@ -79,8 +79,8 @@ $(document).ready(function() {
                     <p class="card-text medication-tablets">Tabletten: ${medication.tablets}</p>
                     <p class="card-text medication-time">Einnahmezeit: ${medication.time}</p>
                     <p class="card-text medication-notes">Notizen: ${medication.notes}</p>
-                    <i class="bi bi-pencil-square edit-icon" style="font-size: 1.5rem; color: gray; float: right; margin-left: 10px;"></i>
-                    <i class="bi bi-x-circle delete-icon" style="font-size: 1.5rem; color: red; float: right;"></i>
+                    <a class="edit-icon" href="javascript:void(0);" onclick="func(0)"><i class="bi bi-pencil-square" style="font-size: 1.5rem; color: gray; float: right; margin-left: 10px;"></i></a>
+                    <a class="delete-icon" href="javascript:void(0);" onclick="func(0)"><i class="bi bi-x-circle" style="font-size: 1.5rem; color: red; float: right;"></i></a>
                   </div>
                 </div>
               `);
