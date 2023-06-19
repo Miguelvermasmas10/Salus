@@ -12,7 +12,6 @@ function ensureAuthenticated(req, res, next) {
     return next();
   }
   // Wenn der Benutzer nicht angemeldet ist, geben wir einen Fehler aus
-   
   res.status(401).send({ message: 'Nicht autorisiert' });
 }
 

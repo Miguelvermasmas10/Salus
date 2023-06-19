@@ -21,7 +21,7 @@ function includeNavbar() {
             }
           } else {
             // Entferne den "Abmelden" und "Profil" Link
-            var medikamenteLink = navbarContainer.querySelector('a[href="/medikamente"]');
+            var medikamenteLink = navbarContainer.querySelector('a.nav-link[href="/medikamente"]');
             if (medikamenteLink) {
               medikamenteLink.parentNode.removeChild(medikamenteLink);
             }
