@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require('path');
 const multer = require('multer');
 const Document = require('../models/dokument');
+const User = require('../models/user');
 
 // Funktion zum Prüfen, ob ein Benutzer angemeldet ist
 function ensureAuthenticated(req, res, next) {
@@ -11,15 +12,26 @@ function ensureAuthenticated(req, res, next) {
     return next();
   }
   // Wenn der Benutzer nicht angemeldet ist, geben wir einen Fehler aus
-  res.status(401).send({ message: 'Nicht autorisiert' });
+  // res.status(401).send({ message: 'Nicht autorisiert' });
+
+  res.redirect("/anmelden")
 }
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.get('/', ensureAuthenticated, (req, res) => {
-  // Wenn ja, senden wir ihm die Profilseite
   res.sendFile(path.join(__dirname, '../../client/views/dokumente.html'));
+});
+
+router.get('/info', ensureAuthenticated, (req, res) => {
+  var userName = null;
+    User.findById({_id: req.session.userId}).then(
+      user => {
+        res.send(user.benutzername);
+      }).catch(
+        error => {console.error("Error: ", error);}
+        );
 });
 
 // Route zum Hochladen von Dateien
